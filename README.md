@@ -1,6 +1,9 @@
 # learnopencv
 Learn OpenCV  : C++ and Python Examples. You can find the details at [LearnOpenCV.com](https://www.LearnOpenCV.com)
 
+## Link
+https://www.learnopencv.com/newsletter-thank-you
+
 ## List of Blog Posts
 
 | Blog Post        | |
