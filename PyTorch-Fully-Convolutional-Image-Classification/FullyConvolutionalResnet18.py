@@ -6,7 +6,8 @@ from matplotlib import pyplot as plt
 from PIL import Image
 from torch.hub import load_state_dict_from_url
 from torchsummary import summary
-from torchvision import models, transforms
+from torchvision import models
+from torchvision import transforms
 
 
 # Define the architecture by modifying resnet.

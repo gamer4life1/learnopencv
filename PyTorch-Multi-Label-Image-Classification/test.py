@@ -6,10 +6,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 import torch
 import torchvision.transforms as transforms
-from dataset import AttributesDataset, FashionDataset, mean, std
+from dataset import AttributesDataset
+from dataset import FashionDataset
+from dataset import mean
+from dataset import std
 from model import MultiOutputModel
-from sklearn.metrics import (ConfusionMatrixDisplay, balanced_accuracy_score,
-                             confusion_matrix)
+from sklearn.metrics import balanced_accuracy_score
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import ConfusionMatrixDisplay
 from torch.utils.data import DataLoader
 
 

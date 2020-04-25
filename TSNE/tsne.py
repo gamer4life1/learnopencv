@@ -5,8 +5,9 @@ import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
-from animals_dataset import (AnimalsDataset, collate_skip_empty,
-                             colors_per_class)
+from animals_dataset import AnimalsDataset
+from animals_dataset import collate_skip_empty
+from animals_dataset import colors_per_class
 from resnet import ResNet101
 from sklearn.manifold import TSNE
 from tqdm import tqdm

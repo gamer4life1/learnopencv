@@ -1,8 +1,6 @@
 # This code is written by Sunita Nayak at BigVision LLC. It is based on the OpenCV project. It is subject to the license terms in the LICENSE file found in this distribution and at http://opencv.org/license.html
-
 # Usage example:   python3 augmented_reality_with_aruco.py --image=test.jpg
 #                  python3 augmented_reality_with_aruco.py --video=test.mp4
-
 # from cv2 import aruco
 import argparse
 import os.path
