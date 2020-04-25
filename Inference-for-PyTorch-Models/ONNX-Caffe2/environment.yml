@@ -1,18 +1,17 @@
 name: pytorch_inference
 
 channels:
-        - conda-forge
-        - pytorch
+  - conda-forge
+  - pytorch
 dependencies:
-        - jupyter
-        - pytorch
-        - torchvision
-        - pip
-        - numpy
-        - protobuf
-        - pip:
-                - torchsummary
-                - Pillow
-                - onnx
-                - future
-
+  - jupyter
+  - pytorch
+  - torchvision
+  - pip
+  - numpy
+  - protobuf
+  - pip:
+      - torchsummary
+      - Pillow
+      - onnx
+      - future
