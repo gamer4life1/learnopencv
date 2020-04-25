@@ -37,7 +37,7 @@ for fname in images:
 
     """
     If desired number of corner are detected,
-    we refine the pixel coordinates and display 
+    we refine the pixel coordinates and display
     them on the images of checker board
     """
     if ret == True:
@@ -58,9 +58,9 @@ cv2.destroyAllWindows()
 h, w = img.shape[:2]
 
 """
-Performing camera calibration by 
+Performing camera calibration by
 passing the value of known 3D points (objpoints)
-and corresponding pixel coordinates of the 
+and corresponding pixel coordinates of the
 detected corners (imgpoints)
 """
 ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(

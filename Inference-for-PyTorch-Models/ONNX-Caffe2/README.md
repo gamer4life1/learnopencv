@@ -4,8 +4,8 @@ We show how to do inference with a PyTorch model using ONNX and Caffe2.
 
 ## Dependencies
 
-torch  
-torchvision  
+torch
+torchvision
 onnx
 
 ## Create conda environment
@@ -37,7 +37,7 @@ Want to become an expert in AI?
 [AI Courses by OpenCV](https://opencv.org/courses/) is a great place to start.
 
 <a href="https://opencv.org/courses/">
-<p align="center"> 
+<p align="center">
 <img src="https://www.learnopencv.com/wp-content/uploads/2020/04/AI-Courses-By-OpenCV-Github.png">
 </p>
 </a>
