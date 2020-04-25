@@ -3,12 +3,12 @@
 # Usage example:   python3 augmented_reality_with_aruco.py --image=test.jpg
 #                  python3 augmented_reality_with_aruco.py --video=test.mp4
 
-import cv2 as cv
-
 # from cv2 import aruco
 import argparse
-import sys
 import os.path
+import sys
+
+import cv2 as cv
 import numpy as np
 
 parser = argparse.ArgumentParser(

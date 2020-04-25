@@ -1,15 +1,12 @@
-import torch
-import torch.nn as nn
-from torchvision import models
-from torch.hub import load_state_dict_from_url
-
-from PIL import Image
 import cv2
 import numpy as np
+import torch
+import torch.nn as nn
 from matplotlib import pyplot as plt
-
-from torchvision import transforms
+from PIL import Image
+from torch.hub import load_state_dict_from_url
 from torchsummary import summary
+from torchvision import models, transforms
 
 
 # Define the architecture by modifying resnet.

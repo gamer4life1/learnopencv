@@ -1,12 +1,11 @@
-import numpy as np
-import cv2
 from collections import namedtuple
 
+import cv2
+import numpy as np
 import torch
 import torch.nn as nn
-from torchvision import transforms
 from FullyConvolutionalResnet18 import FullyConvolutionalResnet18
-
+from torchvision import transforms
 
 Rect = namedtuple("Rect", "x1 y1 x2 y2")
 

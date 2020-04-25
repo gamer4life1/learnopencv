@@ -1,9 +1,9 @@
-from os import path, listdir
-import torch
-from torchvision import transforms
 import random
+from os import listdir, path
 
+import torch
 from PIL import Image, ImageFile
+from torchvision import transforms
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 

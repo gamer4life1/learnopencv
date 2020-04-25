@@ -1,12 +1,12 @@
 import argparse
 import os
 from datetime import datetime
+from test import calculate_metrics, validate, visualize_grid
 
 import torch
 import torchvision.transforms as transforms
-from dataset import FashionDataset, AttributesDataset, mean, std
+from dataset import AttributesDataset, FashionDataset, mean, std
 from model import MultiOutputModel
-from test import calculate_metrics, validate, visualize_grid
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 

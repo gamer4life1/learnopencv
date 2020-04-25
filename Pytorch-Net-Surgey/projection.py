@@ -1,9 +1,7 @@
-import torch
-
-from torchvision import models
-
 import cv2
 import numpy as np
+import torch
+from torchvision import models
 
 
 def classify_image(image, model):

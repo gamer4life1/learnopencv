@@ -1,14 +1,12 @@
-import torch
-from torch import nn
-
-from torchvision import models
-from torch.hub import load_state_dict_from_url
-
 import time
-from tqdm import tqdm
 
 import cv2
 import numpy as np
+import torch
+from torch import nn
+from torch.hub import load_state_dict_from_url
+from torchvision import models
+from tqdm import tqdm
 
 
 class Model(models.ResNet):

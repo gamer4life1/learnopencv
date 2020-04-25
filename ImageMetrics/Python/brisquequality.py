@@ -1,11 +1,11 @@
-import cv2
-import numpy as np
 import math as m
+import os
 import sys
 
+import cv2
+import numpy as np
 # for gamma function, called
 from scipy.special import gamma as tgamma
-import os
 
 # import svm functions (from libsvm library)
 # if python2.x version : import svm from libsvm (sudo apt-get install python-libsvm)

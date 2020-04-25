@@ -1,14 +1,15 @@
 import argparse
-from tqdm import tqdm
-import cv2
-import torch
 import random
-import numpy as np
-from sklearn.manifold import TSNE
-import matplotlib.pyplot as plt
 
-from animals_dataset import AnimalsDataset, collate_skip_empty, colors_per_class
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+import torch
+from animals_dataset import (AnimalsDataset, collate_skip_empty,
+                             colors_per_class)
 from resnet import ResNet101
+from sklearn.manifold import TSNE
+from tqdm import tqdm
 
 
 def fix_random_seeds():

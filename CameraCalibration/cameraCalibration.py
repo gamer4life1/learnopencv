@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 
+import glob
+import os
+
 import cv2
 import numpy as np
-import os
-import glob
 
 # Defining the dimensions of checkerboard
 CHECKERBOARD = (6, 9)
