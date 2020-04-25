@@ -9,8 +9,7 @@ Download and extract the needed model files.
 
 **Python**
 
-`python3 mask_rcnn.py --image=cars.jpg`
-`python3 mask_rcnn.py --video=cars.mp4`
+`python3 mask_rcnn.py --image=cars.jpg` `python3 mask_rcnn.py --video=cars.mp4`
 
 It starts the webcam - if no argument provided.
 
@@ -18,16 +17,14 @@ It starts the webcam - if no argument provided.
 
 Compile using:
 
-```g++ -ggdb `pkg-config --cflags --libs /Users/snayak/opencv/build/unix-install/opencv.pc` mask_rcnn.cpp -o mask_rcnn.out```
+`` g++ -ggdb `pkg-config --cflags --libs /Users/snayak/opencv/build/unix-install/opencv.pc` mask_rcnn.cpp -o mask_rcnn.out ``
 
-Run using:
-`./mask_rcnn.out --image=cars.jpg`
-`./mask_rcnn.out --video=cars.mp4`
-
+Run using: `./mask_rcnn.out --image=cars.jpg` `./mask_rcnn.out --video=cars.mp4`
 
 # AI Courses by OpenCV
 
-Want to become an expert in AI? [AI Courses by OpenCV](https://opencv.org/courses/) is a great place to start. 
+Want to become an expert in AI?
+[AI Courses by OpenCV](https://opencv.org/courses/) is a great place to start.
 
 <a href="https://opencv.org/courses/">
 <p align="center"> 

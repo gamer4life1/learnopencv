@@ -2,7 +2,7 @@ Training YOLOv3 Object Detector - Snowman
 
 1. Install awscli
 
-`sudo pip3 install awscli` 
+`sudo pip3 install awscli`
 
 2. Get the relevant OpenImages files needed to locate images of our interest
 
@@ -18,36 +18,41 @@ Training YOLOv3 Object Detector - Snowman
 
 `python3 splitTrainAndTest.py /data-ssd/sunita/snowman/JPEGImages`
 
-Give the correct path to the data JPEGImages folder. The 'labels' folder should be in the same directory as the JPEGImages folder.
+Give the correct path to the data JPEGImages folder. The 'labels' folder should
+be in the same directory as the JPEGImages folder.
 
 5. Install Darknet and compile it.
+
 ```
 cd ~
 git clone https://github.com/pjreddie/darknet
 cd darknet
 make
 ```
+
 6. Get the pretrained model
 
 `wget https://pjreddie.com/media/files/darknet53.conv.74 -O ~/darknet/darknet53.conv.74`
 
 7. Fill in correct paths in the darknet.data file
 
-8. Start the training as below, by giving the correct paths to all the files being used as arguments
+8. Start the training as below, by giving the correct paths to all the files
+   being used as arguments
 
 `cd ~/darknet`
 
-`./darknet detector train /path/to/snowman/darknet.data  /path/to/snowman/darknet-yolov3.cfg ./darknet53.conv.74 > /path/to/snowman/train.log`
+`./darknet detector train /path/to/snowman/darknet.data /path/to/snowman/darknet-yolov3.cfg ./darknet53.conv.74 > /path/to/snowman/train.log`
 
-9. Give the correct path to the modelConfiguration and modelWeights files in object_detection_yolo.py and test any image or video for snowman detection, e.g.
+9. Give the correct path to the modelConfiguration and modelWeights files in
+   object_detection_yolo.py and test any image or video for snowman detection,
+   e.g.
 
 `python3 object_detection_yolo.py --image=snowmanImage.jpg`
 
-
-
 # AI Courses by OpenCV
 
-Want to become an expert in AI? [AI Courses by OpenCV](https://opencv.org/courses/) is a great place to start. 
+Want to become an expert in AI?
+[AI Courses by OpenCV](https://opencv.org/courses/) is a great place to start.
 
 <a href="https://opencv.org/courses/">
 <p align="center"> 

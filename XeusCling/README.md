@@ -1,6 +1,9 @@
 # Xeus-Cling: Run C++ code in Jupyter Notebook
 
-The repository contains notebook for **Facial Landmark Detection** demo in C++ with **C++11** kernel and **`includeLibraries.h`** header file for loading necessarily libraries. The blog post for the same can be found [here](https://www.learnopencv.com/xeus-cling-run-c-code-in-jupyter-notebook/).
+The repository contains notebook for **Facial Landmark Detection** demo in C++
+with **C++11** kernel and **`includeLibraries.h`** header file for loading
+necessarily libraries. The blog post for the same can be found
+[here](https://www.learnopencv.com/xeus-cling-run-c-code-in-jupyter-notebook/).
 
 ## Installing Xeus-Cling
 
@@ -26,7 +29,8 @@ jupyter-notebook
 
 # AI Courses by OpenCV
 
-Want to become an expert in AI? [AI Courses by OpenCV](https://opencv.org/courses/) is a great place to start. 
+Want to become an expert in AI?
+[AI Courses by OpenCV](https://opencv.org/courses/) is a great place to start.
 
 <a href="https://opencv.org/courses/">
 <p align="center"> 

@@ -1,9 +1,11 @@
 # Invisibility Cloak
+
 Create your own invisibility cloak using OpenCV
 
 ## Download the input video
 
-The input video can be downloaded using this link: https://drive.google.com/file/d/1rc13wZ9zC03ObG5zB3uccUtsg_rsI8hC/view?usp=sharing
+The input video can be downloaded using this link:
+https://drive.google.com/file/d/1rc13wZ9zC03ObG5zB3uccUtsg_rsI8hC/view?usp=sharing
 
 ## Using the C++ code
 
@@ -48,11 +50,10 @@ To take input from camera, use:
 python Invisibility_Cloak.py
 ```
 
-
-
 # AI Courses by OpenCV
 
-Want to become an expert in AI? [AI Courses by OpenCV](https://opencv.org/courses/) is a great place to start. 
+Want to become an expert in AI?
+[AI Courses by OpenCV](https://opencv.org/courses/) is a great place to start.
 
 <a href="https://opencv.org/courses/">
 <p align="center"> 

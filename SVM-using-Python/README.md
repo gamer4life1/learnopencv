@@ -1,4 +1,4 @@
-The blog post for this code is at 
+The blog post for this code is at
 [SVM using scikit-learn](https://www.learnopencv.com/svm-using-scikit-learn-in-python/)
 
 There are **three types** of data:
@@ -19,10 +19,10 @@ The data is in every folder. (Left and Right points)
 1. `points_class_0.txt` : Points of one class.
 2. `points_class_1.txt` : Point of second class.
 
-
 # AI Courses by OpenCV
 
-Want to become an expert in AI? [AI Courses by OpenCV](https://opencv.org/courses/) is a great place to start. 
+Want to become an expert in AI?
+[AI Courses by OpenCV](https://opencv.org/courses/) is a great place to start.
 
 <a href="https://opencv.org/courses/">
 <p align="center"> 

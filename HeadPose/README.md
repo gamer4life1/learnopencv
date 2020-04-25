@@ -1,11 +1,13 @@
-Please see the following [blog post](https://www.learnopencv.com/head-pose-estimation-using-opencv-and-dlib/) for more details about this code
+Please see the following
+[blog post](https://www.learnopencv.com/head-pose-estimation-using-opencv-and-dlib/)
+for more details about this code
 
 [Head Pose Estimation using OpenCV and Dlib](https://www.learnopencv.com/head-pose-estimation-using-opencv-and-dlib/)
 
-
 # AI Courses by OpenCV
 
-Want to become an expert in AI? [AI Courses by OpenCV](https://opencv.org/courses/) is a great place to start. 
+Want to become an expert in AI?
+[AI Courses by OpenCV](https://opencv.org/courses/) is a great place to start.
 
 <a href="https://opencv.org/courses/">
 <p align="center"> 

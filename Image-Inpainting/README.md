@@ -1,6 +1,5 @@
 # Image Inpainting
 
-
 ## Usage
 
 ### Python
@@ -15,6 +14,7 @@ python3 inpaint.py sample.jpeg
 g++ inpaint.cpp `pkg-config opencv --cflags --libs` -o inpaint
 ./inpaint sample.jpeg
 ```
+
 You can also **cmake** as follows:
 
 ```
@@ -38,7 +38,8 @@ Time: NS = 179731.82344436646 ms
 
 # AI Courses by OpenCV
 
-Want to become an expert in AI? [AI Courses by OpenCV](https://opencv.org/courses/) is a great place to start. 
+Want to become an expert in AI?
+[AI Courses by OpenCV](https://opencv.org/courses/) is a great place to start.
 
 <a href="https://opencv.org/courses/">
 <p align="center"> 

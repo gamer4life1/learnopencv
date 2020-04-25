@@ -17,9 +17,10 @@ python3 -m pip install -r requirements.txt
 
 # Data downloading
 
-Download data from Kaggle and unzip it.
-The easiest way is to use kaggle console API. To setup it, follow [this guide](https://www.kaggle.com/general/74235).
-However, you can download the data using your browser - results will be the same.
+Download data from Kaggle and unzip it. The easiest way is to use kaggle console
+API. To setup it, follow [this guide](https://www.kaggle.com/general/74235).
+However, you can download the data using your browser - results will be the
+same.
 
 After that, execute the following commands:
 
@@ -62,8 +63,10 @@ optional arguments:
 
 You can change the data directory with `--path` argument.
 
-Tweak the `--num_images` to speed-up the process - by default it is 500, you can make it smaller.
+Tweak the `--num_images` to speed-up the process - by default it is 500, you can
+make it smaller.
 
-Tweak the `--batch` to better utilize your PC's resources. The script uses GPU automatically if it available. You may
-want to increase the batch size to utilize the GPU better or decrease it if the default batch size does not fit your
-GPU.
+Tweak the `--batch` to better utilize your PC's resources. The script uses GPU
+automatically if it available. You may want to increase the batch size to
+utilize the GPU better or decrease it if the default batch size does not fit
+your GPU.
