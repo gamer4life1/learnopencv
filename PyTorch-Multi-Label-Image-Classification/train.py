@@ -25,14 +25,16 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Training pipeline')
     parser.add_argument('--attributes_file', type=str, default='./fashion-product-images/styles.csv',
                         help="Path to the file with attributes")
-    parser.add_argument('--device', type=str, default='cuda', help="Device: 'cuda' or 'cpu'")
+    parser.add_argument('--device', type=str, default='cuda',
+                        help="Device: 'cuda' or 'cpu'")
     args = parser.parse_args()
 
     start_epoch = 1
     N_epochs = 50
     batch_size = 16
     num_workers = 8  # number of processes to handle dataset loading
-    device = torch.device("cuda" if torch.cuda.is_available() and args.device == 'cuda' else "cpu")
+    device = torch.device("cuda" if torch.cuda.is_available()
+                          and args.device == 'cuda' else "cpu")
 
     # attributes variable contains labels for the categories in the dataset and mapping between string names and IDs
     attributes = AttributesDataset(args.attributes_file)
@@ -40,7 +42,8 @@ if __name__ == '__main__':
     # specify image transforms for augmentation during training
     train_transform = transforms.Compose([
         transforms.RandomHorizontalFlip(p=0.5),
-        transforms.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.3, hue=0),
+        transforms.ColorJitter(
+            brightness=0.3, contrast=0.3, saturation=0.3, hue=0),
         transforms.RandomAffine(degrees=20, translate=(0.1, 0.1), scale=(0.8, 1.2),
                                 shear=None, resample=False, fillcolor=(255, 255, 255)),
         transforms.ToTensor(),
@@ -54,15 +57,17 @@ if __name__ == '__main__':
     ])
 
     train_dataset = FashionDataset('./train.csv', attributes, train_transform)
-    train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers)
+    train_dataloader = DataLoader(
+        train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers)
 
     val_dataset = FashionDataset('./val.csv', attributes, val_transform)
-    val_dataloader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers)
+    val_dataloader = DataLoader(
+        val_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers)
 
     model = MultiOutputModel(n_color_classes=attributes.num_colors,
                              n_gender_classes=attributes.num_genders,
                              n_article_classes=attributes.num_articles)\
-                            .to(device)
+        .to(device)
 
     optimizer = torch.optim.Adam(model.parameters())
 
@@ -94,7 +99,8 @@ if __name__ == '__main__':
 
             img = batch['img']
             target_labels = batch['labels']
-            target_labels = {t: target_labels[t].to(device) for t in target_labels}
+            target_labels = {t: target_labels[t].to(
+                device) for t in target_labels}
             output = model(img.to(device))
 
             loss_train, losses_train = model.get_loss(output, target_labels)

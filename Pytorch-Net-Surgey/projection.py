@@ -14,7 +14,8 @@ def classify_image(image, model):
     with torch.no_grad():
         preds = model(image)
         pred, class_idx = torch.max(preds, dim=1)
-        print('Class id: {}, confidence: {}'.format(class_idx.item(), pred.item()))
+        print('Class id: {}, confidence: {}'.format(
+            class_idx.item(), pred.item()))
 
 
 def classify_grayscale():
@@ -26,7 +27,8 @@ def classify_grayscale():
     imagenet_means = torch.tensor([0.485, 0.456, 0.406][::-1])
     imagenet_stds = torch.tensor([0.229, 0.224, 0.225][::-1])
     model = torch.nn.Sequential(
-        torch.nn.Conv2d(in_channels=1, out_channels=3, kernel_size=1, bias=False),
+        torch.nn.Conv2d(in_channels=1, out_channels=3,
+                        kernel_size=1, bias=False),
         torch.nn.BatchNorm2d(num_features=3),
         models.resnet18(pretrained=True),
     )

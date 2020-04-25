@@ -17,8 +17,10 @@ def save_csv(data, path, fieldnames=['image_path', 'gender', 'articleType', 'bas
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Split data for the dataset')
-    parser.add_argument('--input', type=str, required=True, help="Path to the dataset")
-    parser.add_argument('--output', type=str, required=True, help="Path to the working folder")
+    parser.add_argument('--input', type=str, required=True,
+                        help="Path to the dataset")
+    parser.add_argument('--output', type=str, required=True,
+                        help="Path to the working folder")
 
     args = parser.parse_args()
     input_folder = args.input
@@ -39,13 +41,15 @@ if __name__ == '__main__':
             gender = row['gender']
             articleType = row['articleType']
             baseColour = row['baseColour']
-            img_name = os.path.join(input_folder, 'images', str(img_id) + '.jpg')
+            img_name = os.path.join(
+                input_folder, 'images', str(img_id) + '.jpg')
             # check if file is in place
             if os.path.exists(img_name):
                 # check if the image has 80*60 pixels with 3 channels
                 img = Image.open(img_name)
                 if img.size == (60, 80) and img.mode == "RGB":
-                    all_data.append([img_name, gender, articleType, baseColour])
+                    all_data.append(
+                        [img_name, gender, articleType, baseColour])
 
     # set the seed of the random numbers generator, so we can reproduce the results later
     np.random.seed(42)
@@ -55,4 +59,5 @@ if __name__ == '__main__':
     inds = np.random.choice(40000, 40000, replace=False)
     # split the data into train/val and save them as csv files
     save_csv(all_data[inds][:32000], os.path.join(output_folder, 'train.csv'))
-    save_csv(all_data[inds][32000:40000], os.path.join(output_folder, 'val.csv'))
+    save_csv(all_data[inds][32000:40000],
+             os.path.join(output_folder, 'val.csv'))

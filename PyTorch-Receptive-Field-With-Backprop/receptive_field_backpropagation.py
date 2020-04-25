@@ -16,7 +16,8 @@ def backprop_receptive_field(image, predicted_class, scoremap, use_max_activatio
     model = model.train()
     for module in model.modules():
         try:
-            nn.init.constant_(module.weight, 0.05) # inference overflows with ones
+            # inference overflows with ones
+            nn.init.constant_(module.weight, 0.05)
             nn.init.zeros_(module.bias)
             nn.init.zeros_(module.running_mean)
             nn.init.ones_(module.running_var)
@@ -37,7 +38,8 @@ def backprop_receptive_field(image, predicted_class, scoremap, use_max_activatio
         scoremap_max_row_values, max_row_id = torch.max(scoremap, dim=1)
         _, max_col_id = torch.max(scoremap_max_row_values, dim=1)
         max_row_id = max_row_id[0, max_col_id]
-        print('Coords of the max activation:', max_row_id.item(), max_col_id.item())
+        print('Coords of the max activation:',
+              max_row_id.item(), max_col_id.item())
 
         grad[0, 0, max_row_id, max_col_id] = 1
 
@@ -55,11 +57,13 @@ def find_rect(activations):
     activations = cv2.erode(activations, kernel=kernel)
 
     # Binarize the activations
-    _, activations = cv2.threshold(activations, 0.25, 1, type=cv2.THRESH_BINARY)
+    _, activations = cv2.threshold(
+        activations, 0.25, 1, type=cv2.THRESH_BINARY)
     activations = activations.astype(np.uint8).copy()
 
     # Find the countour of the binary blob
-    contours, _ = cv2.findContours(activations, mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_SIMPLE)
+    contours, _ = cv2.findContours(
+        activations, mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_SIMPLE)
 
     # Find bounding box around the object.
     rect = cv2.boundingRect(contours[0])
@@ -76,12 +80,14 @@ def normalize(activations):
 def visualize_activations(image, activations, show_bounding_rect=False):
     activations = normalize(activations)
 
-    activations_multichannel = np.stack([activations, activations, activations], axis=2)
+    activations_multichannel = np.stack(
+        [activations, activations, activations], axis=2)
     masked_image = (image * activations_multichannel).astype(np.uint8)
 
     if show_bounding_rect:
         rect = find_rect(activations)
-        cv2.rectangle(masked_image, (rect.x1, rect.y1), (rect.x2, rect.y2), color=(0, 0, 255), thickness=2)
+        cv2.rectangle(masked_image, (rect.x1, rect.y1),
+                      (rect.x2, rect.y2), color=(0, 0, 255), thickness=2)
 
     return masked_image
 
@@ -138,16 +144,20 @@ def run_resnet_inference(original_image):
         print('Score Map shape : ', score_map.shape)
 
     # Compute the receptive filed for the inference result
-    receptive_field_map = backprop_receptive_field(image, scoremap=score_map, predicted_class=predicted_class)
+    receptive_field_map = backprop_receptive_field(
+        image, scoremap=score_map, predicted_class=predicted_class)
 
     # Resize score map to the original image size
     score_map = score_map.numpy()[0]
-    score_map = cv2.resize(score_map, (original_image.shape[1], original_image.shape[0]))
+    score_map = cv2.resize(
+        score_map, (original_image.shape[1], original_image.shape[0]))
 
     # Display the images
     cv2.imshow("Original Image", original_image)
-    cv2.imshow("Score map: activations and bbox", visualize_activations(original_image, score_map))
-    cv2.imshow("receptive_field_max_activation", visualize_activations(original_image, receptive_field_map, show_bounding_rect=True))
+    cv2.imshow("Score map: activations and bbox",
+               visualize_activations(original_image, score_map))
+    cv2.imshow("receptive_field_max_activation", visualize_activations(
+        original_image, receptive_field_map, show_bounding_rect=True))
     cv2.waitKey(0)
 
 

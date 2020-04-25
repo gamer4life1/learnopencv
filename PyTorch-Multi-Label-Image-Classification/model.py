@@ -7,8 +7,10 @@ import torchvision.models as models
 class MultiOutputModel(nn.Module):
     def __init__(self, n_color_classes, n_gender_classes, n_article_classes):
         super().__init__()
-        self.base_model = models.mobilenet_v2().features  # take the model without classifier
-        last_channel = models.mobilenet_v2().last_channel  # size of the layer before classifier
+        # take the model without classifier
+        self.base_model = models.mobilenet_v2().features
+        # size of the layer before classifier
+        last_channel = models.mobilenet_v2().last_channel
 
         # the input for the classifier should be two-dimensional, but we will have
         # [batch_size, channels, width, height]
@@ -43,8 +45,11 @@ class MultiOutputModel(nn.Module):
         }
 
     def get_loss(self, net_output, ground_truth):
-        color_loss = F.cross_entropy(net_output['color'], ground_truth['color_labels'])
-        gender_loss = F.cross_entropy(net_output['gender'], ground_truth['gender_labels'])
-        article_loss = F.cross_entropy(net_output['article'], ground_truth['article_labels'])
+        color_loss = F.cross_entropy(
+            net_output['color'], ground_truth['color_labels'])
+        gender_loss = F.cross_entropy(
+            net_output['gender'], ground_truth['gender_labels'])
+        article_loss = F.cross_entropy(
+            net_output['article'], ground_truth['article_labels'])
         loss = color_loss + gender_loss + article_loss
         return loss, {'color': color_loss, 'gender': gender_loss, 'article': article_loss}

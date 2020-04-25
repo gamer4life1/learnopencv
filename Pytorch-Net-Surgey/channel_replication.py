@@ -19,13 +19,16 @@ def classify_image(image):
     with torch.no_grad():
         preds = model(image)
         pred, class_idx = torch.max(preds, dim=1)
-        print('Class id: {}, confidence: {}'.format(class_idx.item(), pred.item()))
+        print('Class id: {}, confidence: {}'.format(
+            class_idx.item(), pred.item()))
+
 
 def classify_grayscale():
     image = cv2.imread("dog-basset-hound.jpg", cv2.IMREAD_GRAYSCALE)
     image = cv2.resize(image, (224, 224))
     image = np.stack((image, image, image), axis=2)
     classify_image(image)
+
 
 def classify_colorful():
     image = cv2.imread("dog-basset-hound.jpg", cv2.IMREAD_UNCHANGED)

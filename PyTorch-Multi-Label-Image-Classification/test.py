@@ -33,7 +33,8 @@ def validate(model, dataloader, logger, iteration, device, checkpoint=None):
         for batch in dataloader:
             img = batch['img']
             target_labels = batch['labels']
-            target_labels = {t: target_labels[t].to(device) for t in target_labels}
+            target_labels = {t: target_labels[t].to(
+                device) for t in target_labels}
             output = model(img.to(device))
 
             val_train, val_train_losses = model.get_loss(output, target_labels)
@@ -102,15 +103,20 @@ def visualize_grid(model, dataloader, attributes, device, show_cn_matrices=True,
             _, predicted_articles = output['article'].cpu().max(1)
 
             for i in range(img.shape[0]):
-                image = np.clip(img[i].permute(1, 2, 0).numpy() * std + mean, 0, 1)
+                image = np.clip(img[i].permute(
+                    1, 2, 0).numpy() * std + mean, 0, 1)
 
-                predicted_color = attributes.color_id_to_name[predicted_colors[i].item()]
-                predicted_gender = attributes.gender_id_to_name[predicted_genders[i].item()]
-                predicted_article = attributes.article_id_to_name[predicted_articles[i].item()]
+                predicted_color = attributes.color_id_to_name[predicted_colors[i].item(
+                )]
+                predicted_gender = attributes.gender_id_to_name[predicted_genders[i].item(
+                )]
+                predicted_article = attributes.article_id_to_name[predicted_articles[i].item(
+                )]
 
                 gt_color = attributes.color_id_to_name[gt_colors[i].item()]
                 gt_gender = attributes.gender_id_to_name[gt_genders[i].item()]
-                gt_article = attributes.article_id_to_name[gt_articles[i].item()]
+                gt_article = attributes.article_id_to_name[gt_articles[i].item(
+                )]
 
                 gt_color_all.append(gt_color)
                 gt_gender_all.append(gt_gender)
@@ -121,8 +127,10 @@ def visualize_grid(model, dataloader, attributes, device, show_cn_matrices=True,
                 predicted_article_all.append(predicted_article)
 
                 imgs.append(image)
-                labels.append("{}\n{}\n{}".format(predicted_gender, predicted_article, predicted_color))
-                gt_labels.append("{}\n{}\n{}".format(gt_gender, gt_article, gt_color))
+                labels.append("{}\n{}\n{}".format(
+                    predicted_gender, predicted_article, predicted_color))
+                gt_labels.append("{}\n{}\n{}".format(
+                    gt_gender, gt_article, gt_color))
 
     if not show_gt:
         n_samples = len(dataloader)
@@ -203,23 +211,28 @@ def calculate_metrics(output, target):
 
     with warnings.catch_warnings():  # sklearn may produce a warning when processing zero row in confusion matrix
         warnings.simplefilter("ignore")
-        accuracy_color = balanced_accuracy_score(y_true=gt_color.numpy(), y_pred=predicted_color.numpy())
-        accuracy_gender = balanced_accuracy_score(y_true=gt_gender.numpy(), y_pred=predicted_gender.numpy())
-        accuracy_article = balanced_accuracy_score(y_true=gt_article.numpy(), y_pred=predicted_article.numpy())
+        accuracy_color = balanced_accuracy_score(
+            y_true=gt_color.numpy(), y_pred=predicted_color.numpy())
+        accuracy_gender = balanced_accuracy_score(
+            y_true=gt_gender.numpy(), y_pred=predicted_gender.numpy())
+        accuracy_article = balanced_accuracy_score(
+            y_true=gt_article.numpy(), y_pred=predicted_article.numpy())
 
     return accuracy_color, accuracy_gender, accuracy_article
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Inference pipeline')
-    parser.add_argument('--checkpoint', type=str, required=True, help="Path to the checkpoint")
+    parser.add_argument('--checkpoint', type=str,
+                        required=True, help="Path to the checkpoint")
     parser.add_argument('--attributes_file', type=str, default='./fashion-product-images/styles.csv',
                         help="Path to the file with attributes")
     parser.add_argument('--device', type=str, default='cuda',
                         help="Device: 'cuda' or 'cpu'")
     args = parser.parse_args()
 
-    device = torch.device("cuda" if torch.cuda.is_available() and args.device == 'cuda' else "cpu")
+    device = torch.device("cuda" if torch.cuda.is_available()
+                          and args.device == 'cuda' else "cpu")
     # attributes variable contains labels for the categories in the dataset and mapping between string names and IDs
     attributes = AttributesDataset(args.attributes_file)
 
@@ -230,10 +243,12 @@ if __name__ == '__main__':
     ])
 
     test_dataset = FashionDataset('./val.csv', attributes, val_transform)
-    test_dataloader = DataLoader(test_dataset, batch_size=64, shuffle=False, num_workers=8)
+    test_dataloader = DataLoader(
+        test_dataset, batch_size=64, shuffle=False, num_workers=8)
 
     model = MultiOutputModel(n_color_classes=attributes.num_colors, n_gender_classes=attributes.num_genders,
                              n_article_classes=attributes.num_articles).to(device)
 
     # Visualization of the trained model
-    visualize_grid(model, test_dataloader, attributes, device, checkpoint=args.checkpoint)
+    visualize_grid(model, test_dataloader, attributes,
+                   device, checkpoint=args.checkpoint)

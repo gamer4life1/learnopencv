@@ -32,7 +32,8 @@ def get_features(dataset, batch, num_images):
 
     # read the dataset and initialize the data loader
     dataset = AnimalsDataset(dataset, num_images)
-    dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch, collate_fn=collate_skip_empty, shuffle=True)
+    dataloader = torch.utils.data.DataLoader(
+        dataset, batch_size=batch, collate_fn=collate_skip_empty, shuffle=True)
 
     # we'll store the features as NumPy array of size num_images x feature_size
     features = None
@@ -87,7 +88,8 @@ def draw_rectangle_by_class(image, label):
 
     # get the color corresponding to image class
     color = colors_per_class[label]
-    image = cv2.rectangle(image, (0, 0), (image_width - 1, image_height - 1), color=color, thickness=5)
+    image = cv2.rectangle(image, (0, 0), (image_width - 1,
+                                          image_height - 1), color=color, thickness=5)
 
     return image
 
@@ -135,7 +137,8 @@ def visualize_tsne_images(tx, ty, images, labels, plot_size=1000, max_image_size
         image = draw_rectangle_by_class(image, label)
 
         # compute the coordinates of the image on the scaled plot visualization
-        tl_x, tl_y, br_x, br_y = compute_plot_coordinates(image, x, y, image_centers_area_size, offset)
+        tl_x, tl_y, br_x, br_y = compute_plot_coordinates(
+            image, x, y, image_centers_area_size, offset)
 
         # put the image to its TSNE coordinates using numpy subarray indices
         tsne_plot[tl_y:br_y, tl_x:br_x, :] = image
@@ -185,7 +188,8 @@ def visualize_tsne(tsne, images, labels, plot_size=1000, max_image_size=100):
     visualize_tsne_points(tx, ty, labels)
 
     # visualize the plot: samples as images
-    visualize_tsne_images(tx, ty, images, labels, plot_size=plot_size, max_image_size=max_image_size)
+    visualize_tsne_images(tx, ty, images, labels,
+                          plot_size=plot_size, max_image_size=max_image_size)
 
 
 def main():
@@ -207,6 +211,7 @@ def main():
     tsne = TSNE(n_components=2).fit_transform(features)
 
     visualize_tsne(tsne, image_paths, labels)
+
 
 if __name__ == '__main__':
     main()
