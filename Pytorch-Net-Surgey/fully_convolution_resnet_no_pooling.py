@@ -12,25 +12,21 @@ from tqdm import tqdm
 class Model(models.ResNet):
     def __init__(self, num_classes=1000, pretrained=False, **kwargs):
 
-        super().__init__(
-            block=models.resnet.BasicBlock,
-            layers=[2, 2, 2, 2],
-            num_classes=num_classes,
-            **kwargs
-        )
+        super().__init__(block=models.resnet.BasicBlock,
+                         layers=[2, 2, 2, 2],
+                         num_classes=num_classes,
+                         **kwargs)
         if pretrained:
             state_dict = load_state_dict_from_url(
-                models.resnet.model_urls["resnet18"], progress=True
-            )
+                models.resnet.model_urls["resnet18"], progress=True)
             self.load_state_dict(state_dict)
 
-        self.last_conv = torch.nn.Conv2d(
-            in_channels=self.fc.in_features, out_channels=num_classes, kernel_size=1
-        )
+        self.last_conv = torch.nn.Conv2d(in_channels=self.fc.in_features,
+                                         out_channels=num_classes,
+                                         kernel_size=1)
 
         self.last_conv.weight.data.copy_(
-            self.fc.weight.data.view(*self.fc.weight.data.shape, 1, 1)
-        )
+            self.fc.weight.data.view(*self.fc.weight.data.shape, 1, 1))
         self.last_conv.bias.data.copy_(self.fc.bias.data)
 
     def _forward_impl(self, x):
@@ -50,7 +46,11 @@ class Model(models.ResNet):
 
 def surgery():
     original_image = cv2.imread("dog-basset-hound.jpg", cv2.IMREAD_UNCHANGED)
-    original_image = cv2.resize(original_image, None, None, fx=1 / 2.0, fy=1 / 2.0)
+    original_image = cv2.resize(original_image,
+                                None,
+                                None,
+                                fx=1 / 2.0,
+                                fy=1 / 2.0)
     cv2.imshow("original", original_image)
     image = original_image.copy()
     model = Model(pretrained=True).eval()
@@ -67,21 +67,19 @@ def surgery():
         pred, class_idx = torch.max(preds, dim=1)
         row_max, row_idx = torch.max(pred, dim=1)
         col_max, col_idx = torch.max(row_max, dim=1)
-        print(
-            "Most confident class: ", class_idx[0, col_idx, row_idx[0, col_idx]].item()
-        )
+        print("Most confident class: ",
+              class_idx[0, col_idx, row_idx[0, col_idx]].item())
 
         preds = torch.softmax(preds, dim=1)
-        score_map = (
-            preds[0, class_idx[0, col_idx, row_idx[0, col_idx]], :, :].cpu().numpy()
-        )
+        score_map = (preds[0, class_idx[0, col_idx, row_idx[0, col_idx]], :, :]
+                     .cpu().numpy())
         score_map = score_map[0]
         score_map = np.expand_dims(score_map, -1)
         score_map = np.repeat(score_map, 3, axis=2)
         score_map = cv2.resize(
-            score_map, (original_image.shape[1], original_image.shape[0])
-        )
-        cv2.imshow("activations", (original_image * score_map).astype(np.uint8))
+            score_map, (original_image.shape[1], original_image.shape[0]))
+        cv2.imshow("activations",
+                   (original_image * score_map).astype(np.uint8))
         cv2.waitKey(0)
 
 

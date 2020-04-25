@@ -9,7 +9,6 @@ from torchvision import transforms
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
-
 colors_per_class = {
     "dog": [254, 202, 87],
     "horse": [255, 107, 107],
@@ -54,7 +53,8 @@ class AnimalsDataset(torch.utils.data.Dataset):
             full_path = path.join(data_path, folder)
             images = listdir(full_path)
 
-            current_data = [(path.join(full_path, image), label) for image in images]
+            current_data = [(path.join(full_path, image), label)
+                            for image in images]
             self.data += current_data
 
         num_images = min(num_images, len(self.data))
@@ -63,16 +63,13 @@ class AnimalsDataset(torch.utils.data.Dataset):
 
         # We use the transforms described in official PyTorch ResNet inference example:
         # https://pytorch.org/hub/pytorch_vision_resnet/.
-        self.transform = transforms.Compose(
-            [
-                transforms.Resize(256),
-                transforms.CenterCrop(224),
-                transforms.ToTensor(),
-                transforms.Normalize(
-                    mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
-                ),
-            ]
-        )
+        self.transform = transforms.Compose([
+            transforms.Resize(256),
+            transforms.CenterCrop(224),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                 std=[0.229, 0.224, 0.225]),
+        ])
 
     def __len__(self):
         return len(self.data)

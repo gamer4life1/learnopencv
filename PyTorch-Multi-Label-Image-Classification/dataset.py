@@ -30,25 +30,19 @@ class AttributesDataset:
         self.num_articles = len(self.article_labels)
 
         self.color_id_to_name = dict(
-            zip(range(len(self.color_labels)), self.color_labels)
-        )
+            zip(range(len(self.color_labels)), self.color_labels))
         self.color_name_to_id = dict(
-            zip(self.color_labels, range(len(self.color_labels)))
-        )
+            zip(self.color_labels, range(len(self.color_labels))))
 
         self.gender_id_to_name = dict(
-            zip(range(len(self.gender_labels)), self.gender_labels)
-        )
+            zip(range(len(self.gender_labels)), self.gender_labels))
         self.gender_name_to_id = dict(
-            zip(self.gender_labels, range(len(self.gender_labels)))
-        )
+            zip(self.gender_labels, range(len(self.gender_labels))))
 
         self.article_id_to_name = dict(
-            zip(range(len(self.article_labels)), self.article_labels)
-        )
+            zip(range(len(self.article_labels)), self.article_labels))
         self.article_name_to_id = dict(
-            zip(self.article_labels, range(len(self.article_labels)))
-        )
+            zip(self.article_labels, range(len(self.article_labels))))
 
 
 class FashionDataset(Dataset):
@@ -69,11 +63,12 @@ class FashionDataset(Dataset):
             reader = csv.DictReader(f)
             for row in reader:
                 self.data.append(row["image_path"])
-                self.color_labels.append(self.attr.color_name_to_id[row["baseColour"]])
-                self.gender_labels.append(self.attr.gender_name_to_id[row["gender"]])
+                self.color_labels.append(
+                    self.attr.color_name_to_id[row["baseColour"]])
+                self.gender_labels.append(
+                    self.attr.gender_name_to_id[row["gender"]])
                 self.article_labels.append(
-                    self.attr.article_name_to_id[row["articleType"]]
-                )
+                    self.attr.article_name_to_id[row["articleType"]])
 
     def __len__(self):
         return len(self.data)

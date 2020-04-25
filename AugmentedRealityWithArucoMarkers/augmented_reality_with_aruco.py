@@ -10,8 +10,7 @@ import cv2 as cv
 import numpy as np
 
 parser = argparse.ArgumentParser(
-    description="Augmented Reality using Aruco markers in OpenCV"
-)
+    description="Augmented Reality using Aruco markers in OpenCV")
 parser.add_argument("--image", help="Path to image file.")
 parser.add_argument("--video", help="Path to video file.")
 args = parser.parse_args()
@@ -72,8 +71,7 @@ while cv.waitKey(1) < 0:
 
         # Detect the markers in the image
         markerCorners, markerIds, rejectedCandidates = cv.aruco.detectMarkers(
-            frame, dictionary, parameters=parameters
-        )
+            frame, dictionary, parameters=parameters)
 
         index = np.squeeze(np.where(markerIds == 25))
         refPt1 = np.squeeze(markerCorners[index[0]])[1]
@@ -84,36 +82,28 @@ while cv.waitKey(1) < 0:
         distance = np.linalg.norm(refPt1 - refPt2)
 
         scalingFac = 0.02
-        pts_dst = [
-            [
-                refPt1[0] - round(scalingFac * distance),
-                refPt1[1] - round(scalingFac * distance),
-            ]
-        ]
-        pts_dst = pts_dst + [
-            [
-                refPt2[0] + round(scalingFac * distance),
-                refPt2[1] - round(scalingFac * distance),
-            ]
-        ]
+        pts_dst = [[
+            refPt1[0] - round(scalingFac * distance),
+            refPt1[1] - round(scalingFac * distance),
+        ]]
+        pts_dst = pts_dst + [[
+            refPt2[0] + round(scalingFac * distance),
+            refPt2[1] - round(scalingFac * distance),
+        ]]
 
         index = np.squeeze(np.where(markerIds == 30))
         refPt3 = np.squeeze(markerCorners[index[0]])[0]
-        pts_dst = pts_dst + [
-            [
-                refPt3[0] + round(scalingFac * distance),
-                refPt3[1] + round(scalingFac * distance),
-            ]
-        ]
+        pts_dst = pts_dst + [[
+            refPt3[0] + round(scalingFac * distance),
+            refPt3[1] + round(scalingFac * distance),
+        ]]
 
         index = np.squeeze(np.where(markerIds == 23))
         refPt4 = np.squeeze(markerCorners[index[0]])[0]
-        pts_dst = pts_dst + [
-            [
-                refPt4[0] - round(scalingFac * distance),
-                refPt4[1] + round(scalingFac * distance),
-            ]
-        ]
+        pts_dst = pts_dst + [[
+            refPt4[0] - round(scalingFac * distance),
+            refPt4[1] + round(scalingFac * distance),
+        ]]
 
         pts_src = [
             [0, 0],
@@ -129,11 +119,13 @@ while cv.waitKey(1) < 0:
         h, status = cv.findHomography(pts_src_m, pts_dst_m)
 
         # Warp source image to destination based on homography
-        warped_image = cv.warpPerspective(im_src, h, (frame.shape[1], frame.shape[0]))
+        warped_image = cv.warpPerspective(im_src, h,
+                                          (frame.shape[1], frame.shape[0]))
 
         # Prepare a mask representing region to copy from the warped image into the original frame.
         mask = np.zeros([frame.shape[0], frame.shape[1]], dtype=np.uint8)
-        cv.fillConvexPoly(mask, np.int32([pts_dst_m]), (255, 255, 255), cv.LINE_AA)
+        cv.fillConvexPoly(mask, np.int32([pts_dst_m]), (255, 255, 255),
+                          cv.LINE_AA)
 
         # Erode the mask to not copy the boundary effects from the warping
         element = cv.getStructuringElement(cv.MORPH_RECT, (3, 3))
@@ -152,7 +144,8 @@ while cv.waitKey(1) < 0:
 
         # Showing the original image and the new output image side by side
         concatenatedOutput = cv.hconcat([frame.astype(float), im_out])
-        cv.imshow("AR using Aruco markers", concatenatedOutput.astype(np.uint8))
+        cv.imshow("AR using Aruco markers",
+                  concatenatedOutput.astype(np.uint8))
 
         # Write the frame with the detection boxes
         if args.image:

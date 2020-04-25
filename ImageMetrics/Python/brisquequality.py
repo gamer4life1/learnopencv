@@ -41,7 +41,8 @@ def AGGDfit(structdis):
     negsqsum = np.sum(np.power(structdis[structdis < 0], 2))
 
     # absolute squared sum
-    abssum = np.sum(structdis[structdis > 0]) + np.sum(-1 * structdis[structdis < 0])
+    abssum = np.sum(structdis[structdis > 0]) + np.sum(
+        -1 * structdis[structdis < 0])
 
     # calculate left sigma variance and right sigma variance
     lsigma_best = np.sqrt((negsqsum / negcount))
@@ -53,12 +54,8 @@ def AGGDfit(structdis):
     totalcount = structdis.shape[1] * structdis.shape[0]
 
     rhat = m.pow(abssum / totalcount, 2) / ((negsqsum + possqsum) / totalcount)
-    rhatnorm = (
-        rhat
-        * (m.pow(gammahat, 3) + 1)
-        * (gammahat + 1)
-        / (m.pow(m.pow(gammahat, 2) + 1, 2))
-    )
+    rhatnorm = (rhat * (m.pow(gammahat, 3) + 1) * (gammahat + 1) /
+                (m.pow(m.pow(gammahat, 2) + 1, 2)))
 
     prevgamma = 0
     prevdiff = 1e10
@@ -76,7 +73,8 @@ def AGGDfit(structdis):
 
 def func(gam, prevgamma, prevdiff, sampling, rhatnorm):
     while gam < 10:
-        r_gam = tgamma(2 / gam) * tgamma(2 / gam) / (tgamma(1 / gam) * tgamma(3 / gam))
+        r_gam = tgamma(2 / gam) * tgamma(
+            2 / gam) / (tgamma(1 / gam) * tgamma(3 / gam))
         diff = abs(r_gam - rhatnorm)
         if diff > prevdiff:
             break
@@ -103,7 +101,7 @@ def compute_features(img):
         mu = cv2.GaussianBlur(im, (7, 7), 1.166)
         mu_sq = mu * mu
         sigma = cv2.GaussianBlur(im * im, (7, 7), 1.166)
-        sigma = (sigma - mu_sq) ** 0.5
+        sigma = (sigma - mu_sq)**0.5
 
         # structdis is the MSCN image
         structdis = im - mu
@@ -118,7 +116,8 @@ def compute_features(img):
 
         # append the best fit parameters for MSCN image
         feat.append(gamma_best)
-        feat.append((lsigma_best * lsigma_best + rsigma_best * rsigma_best) / 2)
+        feat.append(
+            (lsigma_best * lsigma_best + rsigma_best * rsigma_best) / 2)
 
         # shifting indices for creating pair-wise products
         shifts = [[0, 1], [1, 0], [1, 1], [-1, 1]]  # H V D1 D2
@@ -129,9 +128,8 @@ def compute_features(img):
 
             # create transformation matrix for warpAffine function
             M = np.float32([[1, 0, reqshift[1]], [0, 1, reqshift[0]]])
-            ShiftArr = cv2.warpAffine(
-                OrigArr, M, (structdis.shape[1], structdis.shape[0])
-            )
+            ShiftArr = cv2.warpAffine(OrigArr, M,
+                                      (structdis.shape[1], structdis.shape[0]))
 
             Shifted_new_structdis = ShiftArr
             Shifted_new_structdis = Shifted_new_structdis * structdis
@@ -143,13 +141,10 @@ def compute_features(img):
             gamma_best = best_fit_params[2]
 
             constant = m.pow(tgamma(1 / gamma_best), 0.5) / m.pow(
-                tgamma(3 / gamma_best), 0.5
-            )
-            meanparam = (
-                (rsigma_best - lsigma_best)
-                * (tgamma(2 / gamma_best) / tgamma(1 / gamma_best))
-                * constant
-            )
+                tgamma(3 / gamma_best), 0.5)
+            meanparam = ((rsigma_best - lsigma_best) *
+                         (tgamma(2 / gamma_best) / tgamma(1 / gamma_best)) *
+                         constant)
 
             # append the best fit calculated parameters
             feat.append(gamma_best)  # gamma best
@@ -158,9 +153,10 @@ def compute_features(img):
             feat.append(m.pow(rsigma_best, 2))  # right variance square
 
         # resize the image on next iteration
-        im_original = cv2.resize(
-            im_original, (0, 0), fx=0.5, fy=0.5, interpolation=cv2.INTER_CUBIC
-        )
+        im_original = cv2.resize(im_original, (0, 0),
+                                 fx=0.5,
+                                 fy=0.5,
+                                 interpolation=cv2.INTER_CUBIC)
     return feat
 
 
@@ -273,7 +269,8 @@ def test_measure_BRISQUE(imgPath):
     model = svmutil.svm_load_model("allmodel")
 
     # create svm node array from python list
-    x, idx = gen_svm_nodearray(x[1:], isKernel=(model.param.kernel_type == PRECOMPUTED))
+    x, idx = gen_svm_nodearray(
+        x[1:], isKernel=(model.param.kernel_type == PRECOMPUTED))
     x[36].index = -1  # set last index to -1 to indicate the end.
 
     # get important parameters from model

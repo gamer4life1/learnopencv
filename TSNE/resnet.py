@@ -10,16 +10,13 @@ class ResNet101(models.ResNet):
     def __init__(self, num_classes=1000, pretrained=True, **kwargs):
         # Start with standard resnet101 defined here
         # https://github.com/pytorch/vision/blob/b2e95657cd5f389e3973212ba7ddbdcc751a7878/torchvision/models/resnet.py
-        super().__init__(
-            block=models.resnet.Bottleneck,
-            layers=[3, 4, 23, 3],
-            num_classes=num_classes,
-            **kwargs
-        )
+        super().__init__(block=models.resnet.Bottleneck,
+                         layers=[3, 4, 23, 3],
+                         num_classes=num_classes,
+                         **kwargs)
         if pretrained:
             state_dict = load_state_dict_from_url(
-                models.resnet.model_urls["resnet101"], progress=True
-            )
+                models.resnet.model_urls["resnet101"], progress=True)
             self.load_state_dict(state_dict)
 
     # Reimplementing forward pass.

@@ -17,7 +17,8 @@ def classify_image(image):
     with torch.no_grad():
         preds = model(image)
         pred, class_idx = torch.max(preds, dim=1)
-        print("Class id: {}, confidence: {}".format(class_idx.item(), pred.item()))
+        print("Class id: {}, confidence: {}".format(class_idx.item(),
+                                                    pred.item()))
 
 
 def classify_grayscale():

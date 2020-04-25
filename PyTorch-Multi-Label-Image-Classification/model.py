@@ -28,7 +28,8 @@ class MultiOutputModel(nn.Module):
         )
         self.article = nn.Sequential(
             nn.Dropout(p=0.2),
-            nn.Linear(in_features=last_channel, out_features=n_article_classes),
+            nn.Linear(in_features=last_channel,
+                      out_features=n_article_classes),
         )
 
     def forward(self, x):
@@ -45,15 +46,18 @@ class MultiOutputModel(nn.Module):
         }
 
     def get_loss(self, net_output, ground_truth):
-        color_loss = F.cross_entropy(net_output["color"], ground_truth["color_labels"])
-        gender_loss = F.cross_entropy(
-            net_output["gender"], ground_truth["gender_labels"]
-        )
-        article_loss = F.cross_entropy(
-            net_output["article"], ground_truth["article_labels"]
-        )
+        color_loss = F.cross_entropy(net_output["color"],
+                                     ground_truth["color_labels"])
+        gender_loss = F.cross_entropy(net_output["gender"],
+                                      ground_truth["gender_labels"])
+        article_loss = F.cross_entropy(net_output["article"],
+                                       ground_truth["article_labels"])
         loss = color_loss + gender_loss + article_loss
         return (
             loss,
-            {"color": color_loss, "gender": gender_loss, "article": article_loss},
+            {
+                "color": color_loss,
+                "gender": gender_loss,
+                "article": article_loss
+            },
         )
