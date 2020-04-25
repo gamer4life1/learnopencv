@@ -21,9 +21,9 @@ def fix_random_seeds():
 def get_features(dataset, batch, num_images):
     # move the input and model to GPU for speed if available
     if torch.cuda.is_available():
-        device = 'cuda'
+        device = "cuda"
     else:
-        device = 'cpu'
+        device = "cpu"
 
     # initialize our implementation of ResNet
     model = ResNet101(pretrained=True)
@@ -33,7 +33,8 @@ def get_features(dataset, batch, num_images):
     # read the dataset and initialize the data loader
     dataset = AnimalsDataset(dataset, num_images)
     dataloader = torch.utils.data.DataLoader(
-        dataset, batch_size=batch, collate_fn=collate_skip_empty, shuffle=True)
+        dataset, batch_size=batch, collate_fn=collate_skip_empty, shuffle=True
+    )
 
     # we'll store the features as NumPy array of size num_images x feature_size
     features = None
@@ -42,10 +43,10 @@ def get_features(dataset, batch, num_images):
     labels = []
     image_paths = []
 
-    for batch in tqdm(dataloader, desc='Running the model inference'):
-        images = batch['image'].to(device)
-        labels += batch['label']
-        image_paths += batch['image_path']
+    for batch in tqdm(dataloader, desc="Running the model inference"):
+        images = batch["image"].to(device)
+        labels += batch["label"]
+        image_paths += batch["image_path"]
 
         with torch.no_grad():
             output = model.forward(images)
@@ -62,7 +63,7 @@ def get_features(dataset, batch, num_images):
 # scale and move the coordinates so they fit [0; 1] range
 def scale_to_01_range(x):
     # compute the distribution range
-    value_range = (np.max(x) - np.min(x))
+    value_range = np.max(x) - np.min(x)
 
     # move the distribution so that it starts from zero
     # by extracting the minimal value from all its values
@@ -88,8 +89,9 @@ def draw_rectangle_by_class(image, label):
 
     # get the color corresponding to image class
     color = colors_per_class[label]
-    image = cv2.rectangle(image, (0, 0), (image_width - 1,
-                                          image_height - 1), color=color, thickness=5)
+    image = cv2.rectangle(
+        image, (0, 0), (image_width - 1, image_height - 1), color=color, thickness=5
+    )
 
     return image
 
@@ -124,9 +126,7 @@ def visualize_tsne_images(tx, ty, images, labels, plot_size=1000, max_image_size
 
     # now we'll put a small copy of every image to its corresponding T-SNE coordinate
     for image_path, label, x, y in tqdm(
-            zip(images, labels, tx, ty),
-            desc='Building the T-SNE plot',
-            total=len(images)
+        zip(images, labels, tx, ty), desc="Building the T-SNE plot", total=len(images)
     ):
         image = cv2.imread(image_path)
 
@@ -138,7 +138,8 @@ def visualize_tsne_images(tx, ty, images, labels, plot_size=1000, max_image_size
 
         # compute the coordinates of the image on the scaled plot visualization
         tl_x, tl_y, br_x, br_y = compute_plot_coordinates(
-            image, x, y, image_centers_area_size, offset)
+            image, x, y, image_centers_area_size, offset
+        )
 
         # put the image to its TSNE coordinates using numpy subarray indices
         tsne_plot[tl_y:br_y, tl_x:br_x, :] = image
@@ -169,7 +170,7 @@ def visualize_tsne_points(tx, ty, labels):
         ax.scatter(current_tx, current_ty, c=color, label=label)
 
     # build a legend using the labels we set previously
-    ax.legend(loc='best')
+    ax.legend(loc="best")
 
     # finally, show the plot
     plt.show()
@@ -188,24 +189,23 @@ def visualize_tsne(tsne, images, labels, plot_size=1000, max_image_size=100):
     visualize_tsne_points(tx, ty, labels)
 
     # visualize the plot: samples as images
-    visualize_tsne_images(tx, ty, images, labels,
-                          plot_size=plot_size, max_image_size=max_image_size)
+    visualize_tsne_images(
+        tx, ty, images, labels, plot_size=plot_size, max_image_size=max_image_size
+    )
 
 
 def main():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--path', type=str, default='data/raw-img')
-    parser.add_argument('--batch', type=int, default=64)
-    parser.add_argument('--num_images', type=int, default=500)
+    parser.add_argument("--path", type=str, default="data/raw-img")
+    parser.add_argument("--batch", type=int, default=64)
+    parser.add_argument("--num_images", type=int, default=500)
     args = parser.parse_args()
 
     fix_random_seeds()
 
     features, labels, image_paths = get_features(
-        dataset=args.path,
-        batch=args.batch,
-        num_images=args.num_images
+        dataset=args.path, batch=args.batch, num_images=args.num_images
     )
 
     tsne = TSNE(n_components=2).fit_transform(features)
@@ -213,5 +213,5 @@ def main():
     visualize_tsne(tsne, image_paths, labels)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

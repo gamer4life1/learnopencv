@@ -8,7 +8,7 @@ mean = [0.485, 0.456, 0.406]
 std = [0.229, 0.224, 0.225]
 
 
-class AttributesDataset():
+class AttributesDataset:
     def __init__(self, annotation_path):
         color_labels = []
         gender_labels = []
@@ -17,9 +17,9 @@ class AttributesDataset():
         with open(annotation_path) as f:
             reader = csv.DictReader(f)
             for row in reader:
-                color_labels.append(row['baseColour'])
-                gender_labels.append(row['gender'])
-                article_labels.append(row['articleType'])
+                color_labels.append(row["baseColour"])
+                gender_labels.append(row["gender"])
+                article_labels.append(row["articleType"])
 
         self.color_labels = np.unique(color_labels)
         self.gender_labels = np.unique(gender_labels)
@@ -30,19 +30,25 @@ class AttributesDataset():
         self.num_articles = len(self.article_labels)
 
         self.color_id_to_name = dict(
-            zip(range(len(self.color_labels)), self.color_labels))
+            zip(range(len(self.color_labels)), self.color_labels)
+        )
         self.color_name_to_id = dict(
-            zip(self.color_labels, range(len(self.color_labels))))
+            zip(self.color_labels, range(len(self.color_labels)))
+        )
 
         self.gender_id_to_name = dict(
-            zip(range(len(self.gender_labels)), self.gender_labels))
+            zip(range(len(self.gender_labels)), self.gender_labels)
+        )
         self.gender_name_to_id = dict(
-            zip(self.gender_labels, range(len(self.gender_labels))))
+            zip(self.gender_labels, range(len(self.gender_labels)))
+        )
 
         self.article_id_to_name = dict(
-            zip(range(len(self.article_labels)), self.article_labels))
+            zip(range(len(self.article_labels)), self.article_labels)
+        )
         self.article_name_to_id = dict(
-            zip(self.article_labels, range(len(self.article_labels))))
+            zip(self.article_labels, range(len(self.article_labels)))
+        )
 
 
 class FashionDataset(Dataset):
@@ -62,13 +68,12 @@ class FashionDataset(Dataset):
         with open(annotation_path) as f:
             reader = csv.DictReader(f)
             for row in reader:
-                self.data.append(row['image_path'])
-                self.color_labels.append(
-                    self.attr.color_name_to_id[row['baseColour']])
-                self.gender_labels.append(
-                    self.attr.gender_name_to_id[row['gender']])
+                self.data.append(row["image_path"])
+                self.color_labels.append(self.attr.color_name_to_id[row["baseColour"]])
+                self.gender_labels.append(self.attr.gender_name_to_id[row["gender"]])
                 self.article_labels.append(
-                    self.attr.article_name_to_id[row['articleType']])
+                    self.attr.article_name_to_id[row["articleType"]]
+                )
 
     def __len__(self):
         return len(self.data)
@@ -86,11 +91,11 @@ class FashionDataset(Dataset):
 
         # return the image and all the associated labels
         dict_data = {
-            'img': img,
-            'labels': {
-                'color_labels': self.color_labels[idx],
-                'gender_labels': self.gender_labels[idx],
-                'article_labels': self.article_labels[idx]
-            }
+            "img": img,
+            "labels": {
+                "color_labels": self.color_labels[idx],
+                "gender_labels": self.gender_labels[idx],
+                "article_labels": self.article_labels[idx],
+            },
         }
         return dict_data

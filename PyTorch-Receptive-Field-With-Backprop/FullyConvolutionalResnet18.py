@@ -20,11 +20,16 @@ class FullyConvolutionalResnet18(models.ResNet):
 
         # Start with standard resnet18 defined here
         # https://github.com/pytorch/vision/blob/b2e95657cd5f389e3973212ba7ddbdcc751a7878/torchvision/models/resnet.py
-        super().__init__(block=models.resnet.BasicBlock, layers=[
-            2, 2, 2, 2], num_classes=num_classes, **kwargs)
+        super().__init__(
+            block=models.resnet.BasicBlock,
+            layers=[2, 2, 2, 2],
+            num_classes=num_classes,
+            **kwargs
+        )
         if pretrained:
             state_dict = load_state_dict_from_url(
-                models.resnet.model_urls["resnet18"], progress=True)
+                models.resnet.model_urls["resnet18"], progress=True
+            )
             self.load_state_dict(state_dict)
 
         # Replace AdaptiveAvgPool2d with standard AvgPool2d
@@ -33,9 +38,11 @@ class FullyConvolutionalResnet18(models.ResNet):
 
         # Add final Convolution Layer.
         self.last_conv = torch.nn.Conv2d(
-            in_channels=self.fc.in_features, out_channels=num_classes, kernel_size=1)
+            in_channels=self.fc.in_features, out_channels=num_classes, kernel_size=1
+        )
         self.last_conv.weight.data.copy_(
-            self.fc.weight.data.view(*self.fc.weight.data.shape, 1, 1))
+            self.fc.weight.data.view(*self.fc.weight.data.shape, 1, 1)
+        )
         self.last_conv.bias.data.copy_(self.fc.bias.data)
 
     # Reimplementing forward pass.
@@ -64,11 +71,11 @@ class FullyConvolutionalResnet18(models.ResNet):
 if __name__ == "__main__":
 
     # Read ImageNet class id to name mapping
-    with open('imagenet_classes.txt') as f:
+    with open("imagenet_classes.txt") as f:
         labels = [line.strip() for line in f.readlines()]
 
     # Read image
-    original_image = cv2.imread('camel.jpg')
+    original_image = cv2.imread("camel.jpg")
 
     # Convert original image to RGB format
     image = cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB)
@@ -78,13 +85,16 @@ if __name__ == "__main__":
     # 2. Subtract mean
     # 3. Divide by standard deviation
 
-    transform = transforms.Compose([
-        transforms.ToTensor(),  # Convert image to tensor.
-        transforms.Normalize(
-            mean=[0.485, 0.456, 0.406],   # Subtract mean
-            # Divide by standard deviation
-            std=[0.229, 0.224, 0.225]
-        )])
+    transform = transforms.Compose(
+        [
+            transforms.ToTensor(),  # Convert image to tensor.
+            transforms.Normalize(
+                mean=[0.485, 0.456, 0.406],  # Subtract mean
+                # Divide by standard deviation
+                std=[0.229, 0.224, 0.225],
+            ),
+        ]
+    )
 
     image = transform(image)
     image = image.unsqueeze(0)
@@ -101,7 +111,7 @@ if __name__ == "__main__":
         preds = model(image)
         preds = torch.softmax(preds, dim=1)
 
-        print('Response map shape : ', preds.shape)
+        print("Response map shape : ", preds.shape)
 
         # Find the class with the maximum score in the n x m output map
         pred, class_idx = torch.max(preds, dim=1)
@@ -112,7 +122,7 @@ if __name__ == "__main__":
         predicted_class = class_idx[0, row_idx[0, col_idx], col_idx]
 
         # Print top predicted class
-        print('Predicted Class : ', labels[predicted_class], predicted_class)
+        print("Predicted Class : ", labels[predicted_class], predicted_class)
 
         # Find the n x m score map for the predicted class
         score_map = preds[0, predicted_class, :, :].cpu().numpy()
@@ -120,16 +130,21 @@ if __name__ == "__main__":
 
         # Resize score map to the original image size
         score_map = cv2.resize(
-            score_map, (original_image.shape[1], original_image.shape[0]))
+            score_map, (original_image.shape[1], original_image.shape[0])
+        )
 
         # Binarize score map
         _, score_map_for_contours = cv2.threshold(
-            score_map, 0.25, 1, type=cv2.THRESH_BINARY)
+            score_map, 0.25, 1, type=cv2.THRESH_BINARY
+        )
         score_map_for_contours = score_map_for_contours.astype(np.uint8).copy()
 
         # Find the countour of the binary blob
         contours, _ = cv2.findContours(
-            score_map_for_contours, mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_SIMPLE)
+            score_map_for_contours,
+            mode=cv2.RETR_EXTERNAL,
+            method=cv2.CHAIN_APPROX_SIMPLE,
+        )
 
         # Find bounding box around the object.
         rect = cv2.boundingRect(contours[0])
@@ -143,7 +158,12 @@ if __name__ == "__main__":
 
         # Display bounding box
         cv2.rectangle(
-            masked_image, rect[:2], (rect[0] + rect[2], rect[1] + rect[3]), (0, 0, 255), 2)
+            masked_image,
+            rect[:2],
+            (rect[0] + rect[2], rect[1] + rect[3]),
+            (0, 0, 255),
+            2,
+        )
 
         # Display images
         cv2.imshow("Original Image", original_image)
