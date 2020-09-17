@@ -9,6 +9,9 @@ Want to become an expert in AI? [AI Courses by OpenCV](https://opencv.org/course
 </p>
 </a>
 
+## Link
+https://www.learnopencv.com/newsletter-thank-you
+
 ## List of Blog Posts
 
 | Blog Post | |
